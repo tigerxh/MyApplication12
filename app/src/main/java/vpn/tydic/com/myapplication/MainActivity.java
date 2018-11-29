@@ -32,6 +32,9 @@ import vpn.tydic.com.myapplication.http.ResultModel;
 import vpn.tydic.com.myapplication.http.ServerLogic;
 
 public class MainActivity extends BaseActivity {
+    //分支master
+
+
 
     @BindView(R.id.button)
     Button btnLogin;
