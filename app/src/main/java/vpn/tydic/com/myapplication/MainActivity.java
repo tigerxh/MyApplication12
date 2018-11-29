@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 ConnectionFactory factory = new ConnectionFactory();
-                factory.setHost("192.168.0.101");
+                factory.setHost("192.168.0.100");
                 factory.setUsername("rollen");
                 factory.setPassword("root");
                 factory.setPort(5672);
