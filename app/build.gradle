@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "vpn.tydic.com.myapplication"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions 'environment'
+    productFlavors {
+        product {
+            dimension 'environment'
+            buildConfigField "String", "url", '"http://q.scczc.net/app/"'
+            buildConfigField "String", "QrCodePrefix", '"http://q.scczc.net/"'
+        }
+
+        site_test {
+            dimension 'environment'
+            buildConfigField "String", "url", '"http://10.88.0.214:8081/wx/app/"'
+            buildConfigField "String", "QrCodePrefix", '""'
+        }
+
+        local_test {
+            dimension 'environment'
+            buildConfigField "String", "url", '"http://10.88.101.64:8081/wx/app/"'
+            buildConfigField "String", "QrCodePrefix", '""'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+
+
+
+    //    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.github.hotchemi:permissionsdispatcher:2.3.2'
+    //    compile 'cn.yipianfengye.android:zxing-library:2.2'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.2'
+
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    compile 'com.rabbitmq:amqp-client:4.4.1'
+
+    compile 'org.greenrobot:greendao:3.2.0'
+}
