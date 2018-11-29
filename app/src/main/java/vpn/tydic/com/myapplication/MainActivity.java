@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity {
                     Channel channel = connection.createChannel();
                     channel.queueDeclare(queueName, false, false, false, null);
                     String message = "Hello World!";
+                    String message1 = "test";
                     channel.basicPublish(MQ_EXCHANGE_CAR, MQ_ROUTINGKEY_CAR, null, message.getBytes());
                     System.out.println(" [x] Sent '" + message + "'");
                     channel.close();
