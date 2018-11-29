@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 ConnectionFactory factory = new ConnectionFactory();
-                factory.setHost("192.168.0.109");
+                factory.setHost("192.168.0.109");//master
                 factory.setUsername("rollen");
                 factory.setPassword("root");
                 factory.setPort(5672);
@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity {
                     Channel channel = connection.createChannel();
                     channel.queueDeclare(queueName, false, false, false, null);
                     String message = "Hello World!";
-                    String message1 = "test11";
+                    String message1 = "master";
                     channel.basicPublish(MQ_EXCHANGE_CAR, MQ_ROUTINGKEY_CAR, null, message.getBytes());
                     System.out.println(" [x] Sent '" + message + "'");
                     channel.close();
