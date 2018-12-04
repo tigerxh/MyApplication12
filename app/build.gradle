@@ -5,14 +5,6 @@ def getDate() {
     def formattedDate = date.format('yyyyMMddHHmm')
     return formattedDate
 }
-def rename_and_moveout_apk(orignalFile) {
-    def intoFile = "D:\\apache-tomcat-7.0.84\\webapps\\ROOT"+ File.separator + "apk"
-    copy {
-        from orignalFile
-        into intoFile
-        println "任务4复制apk到指定位置:" + intoFile
-    }
-}
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -53,40 +45,21 @@ android {
             buildConfigField "String", "QrCodePrefix", '""'
         }
     }
-    //修改生成的apk名字
-//定义一个装apk文件路径的数组
-    def fileArray = []
-    android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.contains('release')) {
-                //获取每个打包产物
-                def variantProd = variant.productFlavors[0]
-                def fileName = "app_${variantProd.name}_v"+app_version+".apk"
-                println "自定义输出apk的名字:" + fileName;
-                outputFileName = fileName;
-                println "输出apk地址:" + outputFile.parentFile.absolutePath + java.io.File.separator + fileName
-                fileArray.add(outputFile.parentFile.absolutePath + java.io.File.separator + fileName);
+// 自定义apk输出路径和文件名，as3.0需要修改为一下写法
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            // 自定义输出路径
+            if(IS_JENKINS.equalsIgnoreCase("true")){
+                println "IS_JENKINS:" + IS_JENKINS
+                variant.getPackageApplication().outputDirectory = new File("D:\\apache-tomcat-7.0.84\\webapps\\ROOT\\apk" + File.separator + "apk")
             }
+            // 自定义文件名{示例：AppName-Flavor-debug-v1.0.0_201807301409}
+            outputFileName = "AppName-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_${getDate()}.apk"
+        }
+    }
 
-        }
-    }
-    build {
-        doLast() {
-            if(IS_JENKINS){
-                println "任务1编译打包完成后需要复制apk的数:" + fileArray.size()
-                forEachFile(fileArray)
-            }
-        }
-    }
 }
-def forEachFile(fileArray) {
-    fileArray.forEach { file ->
-        //遍历进行文件操作
-        println "任务3遍历apk文件"
-        rename_and_moveout_apk(file)
-    }
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
