@@ -50,6 +50,7 @@ android {
         variant.outputs.all {
             // 自定义输出路径
             if(IS_JENKINS.equalsIgnoreCase("true")){
+                println time_stamp
                 variant.getPackageApplication().outputDirectory = new File("D:\\apache-tomcat-7.0.84\\webapps\\ROOT" + File.separator + "apk")
                 outputFileName = "AppName-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_"+time_stamp+".apk"
             }
