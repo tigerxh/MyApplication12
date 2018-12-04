@@ -53,9 +53,12 @@ android {
                 println time_stamp
                 variant.getPackageApplication().outputDirectory = new File("D:\\apache-tomcat-7.0.84\\webapps\\ROOT" + File.separator + "apk")
                 outputFileName = "app-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_"+time_stamp+".apk"
+            }else{
+                // 自定义文件名{示例：AppName-Flavor-debug-v1.0.0_201807301409}
+                outputFileName = "app-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_${getDate()}.apk"
             }
-            // 自定义文件名{示例：AppName-Flavor-debug-v1.0.0_201807301409}
-            outputFileName = "app-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_${getDate()}.apk"
+
+
         }
     }
 
