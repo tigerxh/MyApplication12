@@ -50,8 +50,8 @@ android {
         variant.outputs.all {
             // 自定义输出路径
             if(IS_JENKINS.equalsIgnoreCase("true")){
-                println "IS_JENKINS:" + IS_JENKINS
-                variant.getPackageApplication().outputDirectory = new File("D:\\apache-tomcat-7.0.84\\webapps\\ROOT\\apk" + File.separator + "apk")
+                variant.getPackageApplication().outputDirectory = new File("D:\\apache-tomcat-7.0.84\\webapps\\ROOT" + File.separator + "apk")
+                outputFileName = "AppName-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_"+time_stamp+".apk"
             }
             // 自定义文件名{示例：AppName-Flavor-debug-v1.0.0_201807301409}
             outputFileName = "AppName-${variant.flavorName}-${variant.buildType.name}-v${variant.versionName}_${getDate()}.apk"
