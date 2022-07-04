@@ -1,0 +1,64 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>
+        js调用java
+    </title>
+</head>
+
+<body>
+
+<p>
+<div id="init">
+</div>
+</p>
+
+<p>
+    <xmp id="show">
+    </xmp>
+</p>
+
+<p>
+    <input type="button" id="enter1" value="调用原生方法" onclick="testClick1();"
+    />
+</p>
+
+</body>
+<script>
+        function testClick1() {
+            //===4===调原生方法submitFromWeb
+            window.WebViewJavascriptBridge.callHandler(
+                'submitFromWeb'
+                , {'Data': 'json数据传给Android端'}  //该类型是任意类型
+                , function(responseData) {
+                    document.getElementById("show").innerHTML = "得到Java传过来的数据 data = " + responseData
+                }
+            );
+        }
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function() {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+        connectWebViewJavascriptBridge(function(bridge) {
+            //===1===在JS中注册默认的Handler，以方便Java调用，java通过send方法发送数据
+            bridge.init(function(message, responseCallback) {
+            });
+            //===2===注册functionJs方法供java调用
+            bridge.registerHandler("functionJs", function(data, responseCallback) {
+                document.getElementById("show").innerHTML = ("Android端: = " + data);
+                var responseData = "Javascript 数据";
+                responseCallback(responseData);
+            });
+        })
+    </script>
+
+</html>
